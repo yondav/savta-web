@@ -51,7 +51,7 @@ module.exports = function webpackConfig(env, args) {
     },
     plugins: [
       new Dotenv({
-        path: `./.env.${mode}.local`,
+        path: mode === 'development' ? `./.env.${mode}.local` : undefined,
       }),
       new CopyWebpackPlugin({
         patterns: [{ from: 'public', to: '.', force: true }],
