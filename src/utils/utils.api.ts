@@ -24,6 +24,7 @@ async function apiCall<T, C extends number | void = void>(
   error?: AxiosError<{ message: string }>;
 }> {
   try {
+    console.log({ origin: config.baseURL });
     const result = await axios.request(config);
 
     return { response: result };
