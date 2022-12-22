@@ -5,6 +5,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 module.exports = function webpackConfig(env, args) {
+  const mode = args.mode ?? 'development';
+
   return {
     entry: path.join(__dirname, 'src/index.tsx'),
     output: {
@@ -49,7 +51,7 @@ module.exports = function webpackConfig(env, args) {
     },
     plugins: [
       new Dotenv({
-        path: `./.env.${env.production ? 'production' : 'development'}.local`,
+        path: `./.env.${mode}.local`,
       }),
       new CopyWebpackPlugin({
         patterns: [{ from: 'public', to: '.', force: true }],

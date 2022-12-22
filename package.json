@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "description": "TypeScript + React + Webpack + Tailwind + Twin Macro",
   "scripts": {
-    "build": "webpack --env=production",
+    "build": "webpack --mode=production",
     "commit": "node ./node_modules/cz-customizable/standalone.js",
-    "dev": "webpack serve --env=development",
+    "dev": "webpack serve --mode=development",
     "lint:check": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "lint:staged": "lint-staged --config lint-staged.js",
