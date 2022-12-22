@@ -10,7 +10,7 @@ import type { DataType, User, UserRelations } from 'types';
 
 export default function Write({ user }: { user: DataType<User & UserRelations> }) {
   const imageRef = createRef<HTMLInputElement>();
-  const [img, setImg] = useState<string>();
+  const [img, setImg] = useState<string | undefined>(user.img);
 
   const {
     register,
@@ -57,7 +57,11 @@ export default function Write({ user }: { user: DataType<User & UserRelations> }
       <Form.Group span={{ col: 6 }} sm={{ col: 3 }} md={{ col: 2 }}>
         <Container tw='max-w-[300px] w-full'>
           <Form.Label htmlFor='img'>profile image</Form.Label>
-          <Uploader.Single ref={imageRef} assignment={uploadAssignment} />
+          <Uploader.Single
+            ref={imageRef}
+            assignment={uploadAssignment}
+            currImg={{ src: user.img, alt: `${user.firstName} ${user.lastName}` }}
+          />
         </Container>
       </Form.Group>
       <Form.Group span={{ col: 6 }} sm={{ col: 3 }} md={{ col: 4 }}>

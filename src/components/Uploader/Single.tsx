@@ -1,14 +1,14 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { forwardRef, useState, useEffect, useMemo, useCallback } from 'react';
 import { SlCloudUpload, SlTrash } from 'react-icons/sl';
-import { TfiSaveAlt } from 'react-icons/tfi';
+// import { TfiSaveAlt } from 'react-icons/tfi';
 import ImageUploading from 'react-images-uploading';
 import { styled } from 'twin.macro';
 
 import useUpload from 'hooks/useUpload';
 import { classes } from 'styles';
 
-import type { InputHTMLAttributes, RefObject } from 'react';
+import type { InputHTMLAttributes, RefObject, ImgHTMLAttributes } from 'react';
 import type { ImageListType } from 'react-images-uploading';
 
 import Button from '../Button';
@@ -19,6 +19,7 @@ import { Span } from '../Typography';
 type Ref = HTMLInputElement;
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   assignment(img: string): void;
+  currImg?: Pick<ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt'>;
 }
 
 const { uploader } = classes;
@@ -29,7 +30,7 @@ const StyledContent = styled(motion.div).attrs(uploader.single.content.animation
   uploader.single.content.style()
 );
 
-const Single = forwardRef<Ref, Props>((props, ref) => {
+const Single = forwardRef<Ref, Props>(({ currImg, ...props }, ref) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [defaultHeight, setDefaultHeight] = useState<number>();
 
@@ -107,13 +108,17 @@ const Single = forwardRef<Ref, Props>((props, ref) => {
             onClick={onImageUpload}
             {...dragProps}
           >
-            {imageList.length === 0 ? (
+            {!currImg && imageList.length === 0 ? (
               <SlCloudUpload
                 size={defaultHeight ? defaultHeight / 2.5 : 40}
                 tw='p-3 text-medium-purple cursor-pointer'
               />
             ) : (
-              <Image src={imageList[0].dataURL} tw='cursor-pointer' />
+              <Image
+                {...currImg}
+                src={imageList.length !== 0 ? imageList[0].dataURL : currImg?.src}
+                tw='cursor-pointer'
+              />
             )}
             <StyledInput ref={ref} {...props} type='text' />
             <AnimatePresence>
