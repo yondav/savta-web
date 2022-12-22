@@ -6,6 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 module.exports = function webpackConfig(env, args) {
   const mode = args.mode ?? 'development';
+  console.log('******', '\n', { mode }, '\n', '******');
 
   return {
     entry: path.join(__dirname, 'src/index.tsx'),
