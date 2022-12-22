@@ -19,6 +19,7 @@ module.exports = function webpackConfig(env, args) {
           }),
         ]
       : [
+          new Dotenv(),
           new CopyWebpackPlugin({
             patterns: [{ from: 'public', to: '.', force: true }],
           }),
