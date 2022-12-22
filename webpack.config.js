@@ -8,6 +8,22 @@ module.exports = function webpackConfig(env, args) {
   const mode = args.mode ?? 'development';
   console.log('******', '\n', { mode }, '\n', '******');
 
+  const plugins =
+    mode === 'development'
+      ? [
+          new Dotenv({
+            path: `./.env.${mode}.local`,
+          }),
+          new CopyWebpackPlugin({
+            patterns: [{ from: 'public', to: '.', force: true }],
+          }),
+        ]
+      : [
+          new CopyWebpackPlugin({
+            patterns: [{ from: 'public', to: '.', force: true }],
+          }),
+        ];
+
   return {
     entry: path.join(__dirname, 'src/index.tsx'),
     output: {
@@ -50,13 +66,6 @@ module.exports = function webpackConfig(env, args) {
       static: { directory: path.join(__dirname, 'public') },
       port: 5678,
     },
-    plugins: [
-      new Dotenv({
-        path: mode === 'development' ? `./.env.${mode}.local` : './.env',
-      }),
-      new CopyWebpackPlugin({
-        patterns: [{ from: 'public', to: '.', force: true }],
-      }),
-    ],
+    plugins,
   };
 };
