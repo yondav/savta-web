@@ -5,12 +5,12 @@ import { useState } from 'react';
 import type { ImageType, ImageListType } from 'react-images-uploading';
 import { toSlug } from 'utils/utils.textFormat';
 
-const S3_BUCKET = process.env.AWS_BUCKET_NAME;
-const REGION = process.env.AWS_REGION;
+const S3_BUCKET = process.env.S3_BUCKET_NAME;
+const REGION = process.env.S3_REGION;
 
 AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS,
-  secretAccessKey: process.env.AWS_SECRET,
+  accessKeyId: process.env.S3_ACCESS,
+  secretAccessKey: process.env.S3_SECRET,
 });
 
 const myBucket = new AWS.S3({

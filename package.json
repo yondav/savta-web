@@ -10,7 +10,7 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "lint:staged": "lint-staged --config lint-staged.js",
     "prepare": "husky install",
-    "serve": "npx serve public"
+    "serve": "npx serve dist"
   },
   "dependencies": {
     "@types/js-cookie": "^3.0.2",

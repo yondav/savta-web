@@ -24,7 +24,17 @@ async function apiCall<T, C extends number | void = void>(
   error?: AxiosError<{ message: string }>;
 }> {
   try {
-    const result = await axios.request(config);
+    console.log({ origin: config.baseURL });
+    const result = await axios.request({
+      baseURL: process.env.API_ORIGIN,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': true,
+      },
+      method: 'GET',
+      withCredentials: true,
+      ...config,
+    });
 
     return { response: result };
   } catch (err) {
