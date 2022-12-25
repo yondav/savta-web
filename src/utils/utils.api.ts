@@ -25,7 +25,7 @@ async function apiCall<T, C extends number | void = void>(
 }> {
   try {
     console.log(axios.defaults);
-    // console.log({ origin: axios.defaults.baseURL, env: process.env.API_ORIGIN });
+    console.log({ origin: axios.defaults.baseURL, env: process.env.API_ORIGIN });
     const result = await axios.request({
       baseURL: process.env.API_ORIGIN,
       headers: {
