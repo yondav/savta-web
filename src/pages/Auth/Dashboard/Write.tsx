@@ -3,14 +3,14 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Form, Container, Cell, Span, Uploader } from 'components';
-import { useAuth } from 'contexts/auth';
+import { useAuth } from 'contexts/firebase/auth';
 import { validators } from 'utils';
 
-import type { DataType, User, UserRelations } from 'types';
+import type { User } from 'types';
 
-export default function Write({ user }: { user: DataType<User & UserRelations> }) {
+export default function Write({ user }: { user: User }) {
   const imageRef = createRef<HTMLInputElement>();
-  const [img, setImg] = useState<string | undefined>(user.img);
+  const [img, setImg] = useState<string | null | undefined>(user.image);
 
   const {
     register,
@@ -28,10 +28,16 @@ export default function Write({ user }: { user: DataType<User & UserRelations> }
   useEffect(() => console.log({ img }), [img]);
 
   const onSubmit = handleSubmit(async data => {
-    const dataObj: typeof data & { img?: string } = { ...data, img };
-    const update = await updateUser(user.id, dataObj);
+    const dataObj: Partial<User> = {
+      ...user,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: { ...user.email, value: data.email },
+      image: img,
+    };
+    await updateUser({ data: dataObj });
 
-    if (update) navigate(`/auth/${user.id}/dashboard`);
+    navigate(`/auth/${user.uid}/dashboard`);
   });
 
   return (
@@ -60,7 +66,7 @@ export default function Write({ user }: { user: DataType<User & UserRelations> }
           <Uploader.Single
             ref={imageRef}
             assignment={uploadAssignment}
-            currImg={{ src: user.img, alt: `${user.firstName} ${user.lastName}` }}
+            currImg={{ src: user.image ?? '', alt: `${user.firstName} ${user.lastName}` }}
           />
         </Container>
       </Form.Group>
@@ -69,7 +75,7 @@ export default function Write({ user }: { user: DataType<User & UserRelations> }
           <Form.Group span={{ col: 2 }}>
             <Form.Label htmlFor='email'>email</Form.Label>
             <Form.Input
-              defaultValue={user.email}
+              defaultValue={user.email.value ?? ''}
               error={errors.email?.message}
               {...register('email', {
                 required: 'Valid Email is required',

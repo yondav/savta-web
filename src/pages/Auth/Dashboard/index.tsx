@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { useAuth } from 'contexts/auth';
-import { H1, Span, Image, Container, Cell, H3, P } from 'components';
+import { useAuth } from 'contexts/firebase/auth';
+import { Span, Image, Container, Cell, H3, P } from 'components';
 import { toTitleCase } from 'utils/utils.textFormat';
 import { Link, useSearchParams } from 'react-router-dom';
-import type { DataType, User, UserRelations } from 'types';
+import type { User } from 'types';
 
 import Write from './Write';
 
-function Read({ user }: { user: DataType<User & UserRelations> }) {
+function Read({ user }: { user: User }) {
   return (
     <Container grid={{ cols: 6, gap: { x: 20, y: 20 } }} tw='mt-20'>
       <Cell span={{ col: 6 }} flex={{ column: true, alignItems: 'flex-start' }}>
@@ -17,9 +17,9 @@ function Read({ user }: { user: DataType<User & UserRelations> }) {
         </Link>
       </Cell>
       <Cell span={{ col: 6 }} sm={{ col: 3 }} md={{ col: 2 }}>
-        {user.img && (
+        {user.image && (
           <Image
-            src={user?.img}
+            src={user?.image}
             alt={user?.firstName}
             variant='square'
             tw='max-w-[350px]'
@@ -28,20 +28,18 @@ function Read({ user }: { user: DataType<User & UserRelations> }) {
       </Cell>
       <Cell span={{ col: 6 }} sm={{ col: 3 }} md={{ col: 4 }}>
         <H3>{toTitleCase(`${user.firstName} ${user.lastName}`)}</H3>
-        <P>{user.email}</P>
+        <P>{user.email.value}</P>
       </Cell>
     </Container>
   );
 }
 
 export default function Dashboard() {
-  const { user, cookie } = useAuth();
+  const { user } = useAuth();
 
   const [search] = useSearchParams();
 
-  useEffect(() => console.log({ user }), [user]);
-
-  if (!user || !cookie)
+  if (!user)
     return (
       <Container tw='mt-2.5 w-[fit-content] mx-auto'>
         <H3>You&apos;re no longer logged in.</H3>

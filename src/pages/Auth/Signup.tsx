@@ -3,20 +3,25 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Form, Button, Span } from 'components';
-import { useAuth } from 'contexts/auth';
+import { useAuth } from 'contexts/firebase/auth';
 import { validators } from 'utils';
 
-import type { User } from 'types';
-
 export default function Signup() {
-  const { signup } = useAuth();
+  const { signUp } = useAuth();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<User & { passwordMatch?: string }>();
+  } = useForm<
+    {
+      email: string;
+      password: string;
+      firstName: string;
+      lastName: string;
+    } & { passwordMatch?: string }
+  >();
   const navigate = useNavigate();
 
   const password = useRef({});
@@ -25,7 +30,7 @@ export default function Signup() {
   const onSubmit = handleSubmit(async data => {
     const dataObj = data;
     delete dataObj.passwordMatch;
-    await signup(dataObj);
+    await signUp(dataObj);
 
     navigate('/auth/login');
   });

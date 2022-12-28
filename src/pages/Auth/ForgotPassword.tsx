@@ -2,11 +2,11 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Button, Form } from 'components';
-import { useAuth } from 'contexts/auth';
+import { useAuth } from 'contexts/firebase/auth';
 import { validators } from 'utils';
 
 export default function ForgotPassword() {
-  const { forgotPassword } = useAuth();
+  const { resetPassword } = useAuth();
   const {
     register,
     handleSubmit,
@@ -14,7 +14,7 @@ export default function ForgotPassword() {
   } = useForm<{ email: string }>();
 
   const onSubmit = handleSubmit(async data => {
-    await forgotPassword(data);
+    await resetPassword(data);
   });
 
   return (

@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { Button, Container, Form, Span } from 'components';
-import { useAuth } from 'contexts/auth';
+import { useAuth } from 'contexts/firebase/auth';
 import { validators } from 'utils';
 
 export default function Login() {
-  const { login } = useAuth();
+  const { signIn, authenticated } = useAuth();
 
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -17,10 +18,15 @@ export default function Login() {
   } = useForm<{ email: string; password: string }>();
 
   const onSubmit = handleSubmit(async data => {
-    const loginAttempt = await login(data);
-
-    if (loginAttempt) navigate('/');
+    await signIn(data);
   });
+
+  useEffect(() => {
+    if (authenticated) {
+      navigate('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authenticated]);
 
   return (
     <Form.Base grid={{ cols: 6, gap: { x: 20, y: 20 } }} onSubmit={onSubmit}>
@@ -68,7 +74,7 @@ export default function Login() {
         <Form.Error errors={errors} name='password' />
       </Form.Group>
       <Form.Group span={{ col: 6 }}>
-        <Button type='submit'>Create Account</Button>
+        <Button type='submit'>Login</Button>
         <Container
           flex={{ justifyContent: 'flex-end', alignItems: 'center', gap: { y: 5 } }}
         >
