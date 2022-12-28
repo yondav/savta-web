@@ -1,26 +1,16 @@
-import type { DataType } from './types.utility';
-
 type User = {
-  email: string;
-  password: string;
+  uid: string;
   firstName: string;
   lastName: string;
-  img?: string;
+  email: {
+    value: string | null;
+    verified: boolean;
+  };
+  phone?: string | null;
+  image?: string | null;
+  posts: [];
+  comments: [];
+  saved: [];
 };
 
-type UserRelations = {
-  verified: boolean;
-  otp?: DataType<Otp>[];
-  posts?: number[];
-  likedPosts?: number[];
-  comments?: Comment[];
-};
-
-type Otp = {
-  userId: number;
-  type: 'verify' | 'reset';
-  otp: string;
-  expiration: Date;
-};
-
-export type { User, Otp, UserRelations };
+export type { User };
