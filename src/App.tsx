@@ -3,33 +3,26 @@ import { Outlet, Route, Routes } from 'react-router-dom';
 
 import ToastProvider from 'contexts/toast';
 import { Layout, Home, Auth } from 'pages';
-import AuthProvider from 'contexts/auth';
-import DataStoreProvider from 'contexts/store';
+import AuthProvider from 'contexts/firebase/auth';
 
-// cookbook-auth
 function App() {
   return (
     <ToastProvider>
       <AuthProvider>
-        <DataStoreProvider>
-          <Routes>
-            <Route path='auth/' element={<Auth.Layout />}>
-              <Route path='signup' element={<Auth.Signup />} />
-              <Route path='login' element={<Auth.Login />} />
-              <Route path='forgot-password' element={<Auth.ForgotPassword />} />
-              <Route path=':userId' element={<Outlet />}>
-                <Route path='verify-account' element={<Auth.VerifyAccount />} />
-                <Route path='verify-reset' element={<Auth.VerifyReset />} />
-                <Route path='reset-password/:otp' element={<Auth.Reset />} />
-                <Route path='dashboard' element={<Auth.Dashboard />} />
-              </Route>
+        <Routes>
+          <Route path='auth/' element={<Auth.Layout />}>
+            <Route path='signup' element={<Auth.Signup />} />
+            <Route path='login' element={<Auth.Login />} />
+            <Route path='forgot-password' element={<Auth.ForgotPassword />} />
+            <Route path=':userId' element={<Outlet />}>
+              <Route path='dashboard' element={<Auth.Dashboard />} />
             </Route>
-            <Route path='/' element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path='*' element={<div>404</div>} />
-            </Route>
-          </Routes>
-        </DataStoreProvider>
+          </Route>
+          <Route path='/' element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path='*' element={<div>404</div>} />
+          </Route>
+        </Routes>
       </AuthProvider>
     </ToastProvider>
   );
