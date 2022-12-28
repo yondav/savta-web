@@ -15,19 +15,21 @@ const Styled = styled(ImSpinner6)(spinner.spinner);
 
 export default function Spinner({ container }: SpinnerProps) {
   return (
-    <ConditionalWrapper
-      condition={Boolean(container)}
-      wrapper={children => (
-        <Container
-          flex={{ justifyContent: 'center', alignItems: 'center' }}
-          css={container?.size === 'screen' ? spinner.screen : spinner.full}
-        >
-          {container?.dim && <Dimmer active />}
-          {children}
-        </Container>
-      )}
-    >
-      <Styled />
-    </ConditionalWrapper>
+    <>
+      {container?.dim && <Dimmer active />}
+      <ConditionalWrapper
+        condition={Boolean(container)}
+        wrapper={children => (
+          <Container
+            flex={{ justifyContent: 'center', alignItems: 'center' }}
+            css={container?.size === 'screen' ? spinner.screen : spinner.full}
+          >
+            <Container tw='bg-neutral-50 p-4 shadow-2xl'>{children}</Container>
+          </Container>
+        )}
+      >
+        <Styled />
+      </ConditionalWrapper>
+    </>
   );
 }
