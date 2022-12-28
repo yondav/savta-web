@@ -4,7 +4,7 @@ import { styled } from 'twin.macro';
 
 import { classes } from 'styles';
 
-import { useAuth } from 'contexts/auth';
+import { useAuth } from 'contexts/firebase/auth';
 
 import Logo from '../Logo';
 import Container from '../Container';
@@ -20,7 +20,7 @@ const Header = styled.header(nav.header);
 // } ) )( nav.logo );
 
 export default function Nav() {
-  const { user, cookie, logout } = useAuth();
+  const { user, signOut } = useAuth();
 
   return (
     <Header>
@@ -29,16 +29,16 @@ export default function Nav() {
           <Logo />
           {/* <H1>Savta&apos;s Cookbook</H1> */}
         </Link>
-        {user && cookie ? (
+        {user ? (
           <Container flex={{ column: true, alignItems: 'center' }} tw='p-0'>
             <Container
               as={Link}
-              to={`/auth/${user.id}/dashboard`}
+              to={`/auth/${user.uid}/dashboard`}
               flex={{ justifyContent: 'center', alignItems: 'center' }}
               tw='w-[34px] h-[34px] p-0 bg-medium-orange text-neutral-50 text-xl rounded-full'
             >
-              {user.img ? (
-                <Image src={user.img} alt={user?.firstName} variant='circle' />
+              {user.image ? (
+                <Image src={user.image} alt={user?.firstName} variant='circle' />
               ) : (
                 <Span weight='heavy'>{user?.firstName[0].toUpperCase()}</Span>
               )}
@@ -46,7 +46,7 @@ export default function Nav() {
             <Span
               weight='semi'
               color='link'
-              onClick={logout}
+              onClick={signOut}
               tw='cursor-pointer ml-auto text-xs'
             >
               Log out
