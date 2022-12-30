@@ -67,6 +67,7 @@ export default function Write({ user }: { user: User }) {
             ref={imageRef}
             assignment={uploadAssignment}
             currImg={{ src: user.image ?? '', alt: `${user.firstName} ${user.lastName}` }}
+            path={{ coll: 'users', doc: user.uid }}
           />
         </Container>
       </Form.Group>

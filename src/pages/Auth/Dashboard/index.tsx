@@ -17,14 +17,12 @@ function Read({ user }: { user: User }) {
         </Link>
       </Cell>
       <Cell span={{ col: 6 }} sm={{ col: 3 }} md={{ col: 2 }}>
-        {user.image && (
-          <Image
-            src={user?.image}
-            alt={user?.firstName}
-            variant='square'
-            tw='max-w-[350px]'
-          />
-        )}
+        <Image
+          src={user?.image ?? undefined}
+          alt={user?.firstName}
+          variant='square'
+          tw='max-w-[350px]'
+        />
       </Cell>
       <Cell span={{ col: 6 }} sm={{ col: 3 }} md={{ col: 4 }}>
         <H3>{toTitleCase(`${user.firstName} ${user.lastName}`)}</H3>
