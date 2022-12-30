@@ -43,19 +43,13 @@ export default class FirebaseTask<T extends Record<string, any>> {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
   protected response<A = void>(
     data: (A extends [] ? T[] : T) | null = null,
     err: unknown = null,
     message: string | null = null
   ): ReturnType<T, A> {
     const error = err as FirestoreError;
-
-    if (!this.collName)
-      return {
-        message: 'Insufficient input for query - abort',
-        error: null,
-        data: null,
-      };
 
     if (error)
       return {
