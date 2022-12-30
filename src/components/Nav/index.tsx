@@ -25,17 +25,17 @@ export default function Nav() {
   return (
     <Header>
       <Container flex={{ alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link to='/' tw='max-w-[200px] text-accent-pink'>
+        <Container tw='max-w-[200px]'>
           <Logo />
           {/* <H1>Savta&apos;s Cookbook</H1> */}
-        </Link>
+        </Container>
         {user ? (
           <Container flex={{ column: true, alignItems: 'center' }} tw='p-0'>
             <Container
               as={Link}
               to={`/auth/${user.uid}/dashboard`}
               flex={{ justifyContent: 'center', alignItems: 'center' }}
-              tw='w-[34px] h-[34px] p-0 bg-medium-orange text-neutral-50 text-xl rounded-full'
+              tw='w-[34px] h-[34px] p-0 bg-orange-400 text-neutral-50 text-xl rounded-full'
             >
               {user.image ? (
                 <Image src={user.image} alt={user?.firstName} variant='circle' />

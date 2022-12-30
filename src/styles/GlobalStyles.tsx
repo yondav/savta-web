@@ -8,12 +8,12 @@ const CustomStyles = createGlobalStyle({
   ':root': root,
 
   html: {
-    ...tw`text-neutral-900 text-base min-w-[350px] overflow-x-hidden scroll-behavior[smooth] transition-all duration-200 ease-linear`,
+    ...tw`text-black text-base min-w-[350px] overflow-x-hidden scroll-behavior[smooth] transition-all duration-200 ease-linear`,
   },
 
   body: {
     fontFamily: 'Montserrat',
-    ...tw`antialiased bg-light-pink text-neutral-900 font-normal transition-all duration-200 ease-linear`,
+    ...tw`antialiased bg-neutral-50 text-black font-normal transition-all duration-200 ease-linear`,
   },
 
   h1: { ...tw`text-4xl` },

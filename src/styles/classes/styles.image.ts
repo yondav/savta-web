@@ -3,7 +3,7 @@ import tw, { css } from 'twin.macro';
 import type { ImgProps } from 'types';
 
 export const img = (props?: ImgProps) => [
-  tw`relative overflow-hidden w-full transition-all duration-300 ease-in rounded-xl`,
+  tw`bg-purple-200 relative overflow-hidden w-full transition-all duration-300 ease-in rounded-xl`,
 
   props?.variant === ('square' || 'circle') &&
     css`

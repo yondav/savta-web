@@ -27,11 +27,11 @@ export const typography = {
       case 'black':
         return tw`text-neutral-900`;
       case 'danger':
-        return tw`text-medium-red`;
+        return tw`text-red-400`;
       case 'success':
-        return tw`text-medium-green`;
+        return tw`text-green-400`;
       case 'link':
-        return tw`text-accent-blue hover:text-bright-pink transition-colors`;
+        return tw`text-blue-400 hover:text-blue-200 transition-colors`;
       default:
         return tw`text-current`;
     }

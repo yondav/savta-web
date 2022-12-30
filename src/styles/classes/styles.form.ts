@@ -14,9 +14,9 @@ export const form = {
   group: tw`flex flex-col justify-start gap-2 p-2.5`,
 
   input: ({ error }: { error?: string }) => [
-    tw`px-3.5 py-2.5 text-sm font-medium rounded-lg bg-neutral-200 focus-visible:(bg-neutral-300 outline-none) transition-colors duration-200`,
+    tw`px-3.5 py-2.5 text-sm font-medium rounded-lg bg-neutral-100 focus-visible:(bg-neutral-300 outline-none) transition-colors duration-200`,
 
-    error && tw`border border-accent-red bg-bright-pink focus-visible:bg-bright-pink`,
+    error && tw`border border-red-400 bg-red-100 focus-visible:bg-red-100`,
   ],
 
   label: tw`text-sm font-semibold uppercase`,

@@ -15,11 +15,13 @@ import Button from '../Button';
 import Container from '../Container';
 import Image from '../Img';
 import { Span } from '../Typography';
+import Spinner from '../Spinner';
 
 type Ref = HTMLInputElement;
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   assignment(img: string): void;
   currImg?: Pick<ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt'>;
+  path: { coll: string; doc: string };
 }
 
 const { uploader } = classes;
@@ -30,13 +32,13 @@ const StyledContent = styled(motion.div).attrs(uploader.single.content.animation
   uploader.single.content.style()
 );
 
-const Single = forwardRef<Ref, Props>(({ currImg, ...props }, ref) => {
+const Single = forwardRef<Ref, Props>(({ currImg, path, ...props }, ref) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [defaultHeight, setDefaultHeight] = useState<number>();
 
   const maxNumber = 1;
 
-  const { progress, selectedFiles, uploadedFiles, handleFileInput, uploadSingleFile } =
+  const { loading, selectedFiles, uploadedFiles, handleFileInput, uploadSingleFile } =
     useUpload();
 
   const inputRef = useMemo(
@@ -111,7 +113,7 @@ const Single = forwardRef<Ref, Props>(({ currImg, ...props }, ref) => {
             {!currImg && imageList.length === 0 ? (
               <SlCloudUpload
                 size={defaultHeight ? defaultHeight / 2.5 : 40}
-                tw='p-3 text-medium-purple cursor-pointer'
+                tw='p-3 text-purple-400 cursor-pointer'
               />
             ) : (
               <Image
@@ -131,12 +133,12 @@ const Single = forwardRef<Ref, Props>(({ currImg, ...props }, ref) => {
                     >
                       <SlCloudUpload
                         size='1.125em'
-                        tw='hover:text-accent-purple transition-colors'
+                        tw='hover:text-purple-200 transition-colors'
                         onClick={() => onImageUpdate(0)}
                       />
                       <SlTrash
                         size='1.125em'
-                        tw='hover:text-accent-purple transition-colors'
+                        tw='hover:text-purple-200 transition-colors'
                         onClick={() => onImageRemove(0)}
                       />
                     </Container>
@@ -156,7 +158,11 @@ const Single = forwardRef<Ref, Props>(({ currImg, ...props }, ref) => {
         variant='success'
         type='button'
         onClick={() => {
-          uploadSingleFile(selectedFiles[0]);
+          uploadSingleFile({
+            file: selectedFiles[0],
+            collection: path.coll,
+            doc: path.doc,
+          });
         }}
         tw='w-full mt-1.5'
       >
@@ -164,8 +170,8 @@ const Single = forwardRef<Ref, Props>(({ currImg, ...props }, ref) => {
           flex={{ justifyContent: 'center', alignItems: 'center', gap: { y: 10 } }}
           tw='py-0'
         >
-          {progress ? (
-            `${progress}%`
+          {loading ? (
+            <Spinner />
           ) : (
             <>
               <SlCloudUpload /> Upload

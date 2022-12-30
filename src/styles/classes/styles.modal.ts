@@ -11,7 +11,7 @@ export const modal = {
 
   wrapper: tw`px-10 py-7 border-0 rounded-xl shadow-lg relative flex flex-col w-full h-full bg-neutral-100 outline-none focus:outline-none overflow-y-hidden`,
 
-  close: tw`absolute top-4 right-4 text-medium-green hover:text-accent-green transition-all duration-200 ease-linear cursor-pointer`,
+  close: tw`absolute top-4 right-4 text-black transition-all duration-200 ease-linear cursor-pointer`,
 
   header: css`
     ${tw`border-b border-neutral-300 p-5`}

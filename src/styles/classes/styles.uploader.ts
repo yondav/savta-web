@@ -14,6 +14,6 @@ export const uploader = {
       style: () =>
         tw`absolute w-full bottom-0 left-0 max-h-[50%] p-3.5 bg-[#8083a5d1] uppercase rounded-b-xl`,
     },
-    container: () => tw`relative p-0 bg-bright-purple cursor-pointer`,
+    container: () => tw`relative p-0 bg-purple-200 cursor-pointer`,
   },
 };

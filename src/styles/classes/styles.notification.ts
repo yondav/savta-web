@@ -1,12 +1,12 @@
 import tw from 'twin.macro';
 
 export const notification = {
-  bar: tw`p-2.5 fixed bottom-0 left-0 w-full bg-accent-orange text-neutral-50 text-center z-50`,
+  bar: tw`p-2.5 fixed bottom-0 left-0 w-full bg-orange-400 text-neutral-50 text-center z-50`,
   toast: ({ variant = 'primary' }: { variant?: 'danger' | 'success' | 'primary' }) => [
-    tw`p-5 fixed bottom-2.5 left-2.5 w-80 rounded-md shadow-xl text-neutral-50 z-50`,
-    variant === 'primary' && tw`bg-accent-orange`,
-    variant === 'danger' && tw`bg-accent-red`,
-    variant === 'success' && tw`bg-accent-green`,
+    tw`p-5 font-semibold fixed bottom-2.5 left-2.5 w-80 rounded-md shadow-xl text-neutral-50 z-50`,
+    variant === 'primary' && tw`bg-yellow-400 text-black`,
+    variant === 'danger' && tw`bg-red-400`,
+    variant === 'success' && tw`bg-green-400`,
   ],
   animation: {
     hidden: { y: 100 },

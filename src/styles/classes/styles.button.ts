@@ -10,10 +10,10 @@ export const button = ({ variant, size }: ButtonProps) => [
       ${tw`saturate-0`}
     }
   `,
-  variant === 'primary' && tw`bg-gradient-to-b from-medium-orange to-accent-orange`,
-  variant === 'secondary' && tw`bg-gradient-to-b from-medium-blue to-accent-blue`,
-  variant === 'success' && tw`bg-gradient-to-b from-bright-green to-medium-green`,
-  variant === 'danger' && tw`bg-gradient-to-b from-medium-red to-accent-red`,
+  variant === 'primary' && tw`bg-orange-400`,
+  variant === 'secondary' && tw`bg-white border-black`,
+  variant === 'success' && tw`bg-green-400`,
+  variant === 'danger' && tw`bg-red-400`,
 
   size === 'lg' && tw`text-lg`,
   size === 'md' && tw`text-base`,
