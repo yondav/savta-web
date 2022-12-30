@@ -12,11 +12,11 @@ import { toTitleCase } from 'utils/utils.textFormat';
 import type { User } from 'types/types.user';
 
 import { auth } from '../config';
-import FireStoreTasks from './store';
+import FirebaseCrudTasks from './crud';
 
 import type { ReturnType } from './task';
 
-export default class AuthTasks extends FireStoreTasks<User> {
+export default class FirebaseAuthTasks extends FirebaseCrudTasks<User> {
   public async checkAuth() {
     return new Promise((resolve: (value: User | null) => void, reject) => {
       auth.onAuthStateChanged(async user => {

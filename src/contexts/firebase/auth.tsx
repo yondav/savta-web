@@ -11,7 +11,7 @@ import type { ReactNode } from 'react';
 
 import type { User } from 'types/types.user';
 import { useToast } from 'contexts/toast';
-import AuthTasks from './tasks/auth';
+import FirebaseAuthTasks from './tasks/auth';
 
 interface AuthContextState {
   loading: boolean;
@@ -43,7 +43,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   // const navigate = useNavigate();
   const { toast } = useToast();
 
-  const Auth = useMemo(() => new AuthTasks({ coll: 'users' }), []);
+  const Auth = useMemo(() => new FirebaseAuthTasks({ coll: 'users' }), []);
 
   useEffect(() => {
     let ignore = false;
@@ -51,6 +51,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     if (!ignore) {
       const checkAuth = async () => {
         setLoading(true);
+
         try {
           const currUser = await Auth.checkAuth();
           if (currUser) {
@@ -75,6 +76,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const resetPassword: AuthContextState['resetPassword'] = useCallback(
     async payload => {
       setLoading(true);
+
       const { message, error } = await Auth.resetPassword(payload);
 
       toast(message, error ? 'danger' : 'primary');
@@ -87,6 +89,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const signIn: AuthContextState['signIn'] = useCallback(
     async payload => {
       setLoading(true);
+
       const { data, message, error } = await Auth.signIn(payload);
 
       toast(message, error ? 'danger' : 'primary');
@@ -103,6 +106,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut: AuthContextState['signOut'] = useCallback(async () => {
     setLoading(true);
+
     const { message, error } = await Auth.signOut();
 
     toast(message, error ? 'danger' : 'primary');
@@ -118,6 +122,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const signUp: AuthContextState['signUp'] = useCallback(
     async payload => {
       setLoading(true);
+
       const { message, error } = await Auth.signUp(payload);
 
       toast(message, error ? 'danger' : 'primary');
@@ -130,10 +135,12 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const updateUser: AuthContextState['updateUser'] = useCallback(
     async payload => {
       setLoading(true);
-      const { message, error } = await Auth.updateUser(payload);
+
+      const { message, error, data } = await Auth.updateUser(payload);
 
       toast(message, error ? 'danger' : 'primary');
 
+      if (data) setUser(data);
       setLoading(false);
     },
     [Auth, toast]
