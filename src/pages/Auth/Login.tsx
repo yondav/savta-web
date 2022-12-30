@@ -7,7 +7,7 @@ import { useAuth } from 'contexts/firebase/auth';
 import { validators } from 'utils';
 
 export default function Login() {
-  const { signIn, authenticated } = useAuth();
+  const { signIn, authenticated, user } = useAuth();
 
   const navigate = useNavigate();
 
@@ -22,8 +22,8 @@ export default function Login() {
   });
 
   useEffect(() => {
-    if (authenticated) {
-      navigate('/');
+    if (authenticated && user) {
+      navigate(`/${user.uid}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated]);
