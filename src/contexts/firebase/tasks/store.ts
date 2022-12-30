@@ -1,79 +1,33 @@
-import { collection, doc, getDoc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
+import { ref, uploadString, getDownloadURL } from 'firebase/storage';
 
-import type { UpdateData } from 'firebase/firestore';
+import type { UploadResult } from 'firebase/storage';
+import type { ImageType } from 'react-images-uploading';
 
-import { db } from '../config';
+import { storage } from '../config';
 import FirebaseTask from './task';
 
-import type { ReturnType } from './task';
-
-export default class FireStoreTasks<
-  T extends Record<string, any>
-> extends FirebaseTask<T> {
-  public async fetchCollection(): Promise<ReturnType<T, []>> {
+export default class FirebaseStoreTasks extends FirebaseTask<{
+  url: string | string[];
+  upload?: UploadResult | UploadResult[];
+}> {
+  public async uploadImage(payload: {
+    file: ImageType;
+    collection: string;
+    doc: string;
+  }) {
+    const { file, collection, doc } = payload;
     try {
-      const data = await getDocs(
-        collection(db, this.collName).withConverter(this.converter())
-      );
+      if (!file.dataURL) throw new Error('No upload body provided');
+      if (!file.file?.name) throw new Error('No file name provided');
 
-      return this.response<[]>(data.docs.map(d => d.data()));
-    } catch (err) {
-      return this.response(null, err);
-    }
-  }
+      const imageRef = ref(storage, `${collection}/${doc}/${file.file.name}`);
 
-  public async fetchDocument(payload?: { doc?: string }): Promise<ReturnType<T>> {
-    const docName = this.docName ?? payload?.doc;
+      const upload = await uploadString(imageRef, file.dataURL, 'data_url');
 
-    if (!docName) return this.response();
+      const url = await getDownloadURL(imageRef);
 
-    try {
-      const document = await getDoc(
-        doc(db, this.collName, docName).withConverter(this.converter())
-      );
-
-      return this.response(document.data());
-    } catch (err) {
-      return this.response(null, err);
-    }
-  }
-
-  public async post(payload?: { doc?: string; data?: T }) {
-    const docName = this.docName ?? payload?.doc;
-    const data = this.data ?? payload?.data;
-
-    if (!docName || !data) return this.response();
-
-    try {
-      await setDoc(doc(db, this.collName, docName), data);
-
-      const updated = await getDoc(
-        doc(db, this.collName, docName).withConverter(this.converter())
-      );
-
-      return this.response(updated.data());
-    } catch (err) {
-      return this.response(null, err);
-    }
-  }
-
-  public async put(payload: { doc: string; data: Partial<T> }) {
-    const docName = this.docName ?? payload?.doc;
-    const data = (this.data ?? payload?.data) as UpdateData<T>;
-
-    if (!docName || !data) return this.response();
-
-    try {
-      await updateDoc(
-        doc(db, this.collName, docName).withConverter(this.converter()),
-        data
-      );
-
-      const updated = await getDoc(
-        doc(db, this.collName, docName).withConverter(this.converter())
-      );
-
-      return this.response(updated.data());
+      console.log({ url });
+      return this.response({ url, upload }, null, '');
     } catch (err) {
       return this.response(null, err);
     }
